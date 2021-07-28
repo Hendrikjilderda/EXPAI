@@ -3,7 +3,7 @@
 #
 #
 
-setwd("C:/Users/Hendrik/Documents/Programming/R/d99_xai_topservice")
+setwd("C:/Users/Hendrik/Documents/Programming/R/EXPAI")
 
 #loading dependencies
 source("scripts/load_packages.R")
@@ -17,3 +17,5 @@ source("scripts/model_RandomForest.R")
 #explainability
 source("scripts/explainer.R")
 source("scripts/explainability_functions.R")
+
+source("scripts/test.R")

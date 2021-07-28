@@ -5,11 +5,13 @@
 # zorgen dat explainer van te voren al vast staat. evt maken in functie te veel troep?
 
 #to do:
-# /
+# debugging
 single_custom_model_parts <- function(explainer = NULL, 
+                                      
                                       workflow = NULL, 
-                                      dataset = NULL, 
+                                      test_dataset = NULL, 
                                       target_Var = NULL, 
+                                      
                                       lossfunction = NULL, 
                                       B = 10) {
 
@@ -25,7 +27,9 @@ single_custom_model_parts <- function(explainer = NULL,
                                  target_Var)
     }
   }
-  set.seed()
+  print('till here')
+  
+  set.seed(NULL)
   if(is.null(lossfunction)){
     res_model_parts <- model_parts(explainer = explainer, 
                                    loss_function = loss_root_mean_square,
