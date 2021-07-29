@@ -159,18 +159,17 @@ multi_custom_model_parts <- function(explainer1 = NULL,
 ################################################################################
 
 
-#Partial-dependence Profiles
+#Partial-dependence Profiles/Plots
 # https://ema.drwhy.ai/partialDependenceProfiles.html#PDPIntro
 
 # aanpassingen:
 # /
 
 # to do:
-# /
+# probleem met variabelen die double en geen ints zijn
 
 compare_pdp <- function(explainer1 = NULL, 
                         explainer2 = NULL, 
-                        explainer3 = NULL,
                         wanted_variable = NULL){
   
   if(is.null(explainer1) || is.null(explainer2)){
