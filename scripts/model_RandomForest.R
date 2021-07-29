@@ -13,20 +13,15 @@ ml_workflow <-
 
 set.seed(456)
 folds <- vfold_cv(data_train)
-grid <- expand.grid(mtry = 1:9, min_n = 1:9)
-
-# all_cores <- parallel::detectCores(logical = TRUE) - 1
-# registerDoFuture()
-# cl <- makeCluster(all_cores)
-# plan(future::cluster, workers = cl)
+# grid <- expand.grid(mtry = 1:9, min_n = 1:9)
+grid <- expand.grid(mtry = 1:3, min_n = 1:3)
 
 doParallel::registerDoParallel()
 
 tune_res <- tune_grid(
   ml_workflow, resamples = folds, grid = grid)
 
-#stopCluster(cl)
-#uit vid
+
 tune_res %>%
   collect_metrics() %>%
   filter(.metric == "accuracy") %>%
@@ -46,21 +41,21 @@ best_params <- tune_res %>%
   tune::select_best(metric = "accuracy")
 
 
-optimized_rf <- finalize_model(
+final_rf <- finalize_model(
   randomforest_mod,
   best_params
 )
 
-optimized_rf
+final_rf
 
-optimized_rf %>%
+final_rf %>%
   set_engine('randomForest') %>%
   fit(condition ~ ., data = juice(data_prep)  ) %>%
   vip(geom= 'point')
 
 final_wf <- workflow() %>%
   add_recipe(data_rec) %>%
-  add_model(optimized_rf)
+  add_model(final_rf)
 
 final_res <- final_wf %>%
   last_fit(data_split)

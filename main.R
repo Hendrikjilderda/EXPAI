@@ -7,7 +7,7 @@ setwd("C:/Users/Hendrik/Documents/Programming/R/EXPAI")
 
 #loading dependencies
 source("scripts/load_packages.R")
-source("scripts/custom_functions.R")
+# source("scripts/custom_functions.R")
 
 #making the model
 source("scripts/load_dataset.R")

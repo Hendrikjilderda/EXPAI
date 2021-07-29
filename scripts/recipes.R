@@ -25,9 +25,9 @@ data_rec <-
               scintigraphy = ifelse(scintigraphy == '3.0', 'Normal', 
                                        ifelse(scintigraphy == '6.0', 
                                        'Fixed Defect' , 
-                                       'Reverseable Defect'))) %>%
+                                       'Reverseable Defect'))) 
 
-  step_string2factor(all_nominal())
+  #step_string2factor(all_nominal())
   
 data_prep <- prep(data_rec)
 
