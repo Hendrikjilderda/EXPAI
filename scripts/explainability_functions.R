@@ -5,7 +5,7 @@
 # zorgen dat explainer van te voren al vast staat. evt maken in functie te veel troep?
 
 #to do:
-# debugging
+# plotten werkt nog niet wanneer in functie gedaan wordt?
 single_custom_model_parts <- function(explainer = NULL, 
                                       
                                       workflow = NULL, 
@@ -28,19 +28,19 @@ single_custom_model_parts <- function(explainer = NULL,
     }
   }
   
+  explainer_rf <- explainer1
+  b <- 10
   set.seed(NULL)
   if(is.null(lossfunction)){
-    res_model_parts <- model_parts(explainer = explainer, 
-                                   loss_function = loss_root_mean_square,
-                                   B = B)
+    res_model_parts <- model_parts(explainer = explainer_rf)
+    
   }
   else{
     res_model_parts <-model_parts(explainer = explainer, 
                                   loss_function = lossfunction,
                                   B = B)
   }
-  
-  
+
   head(res_model_parts, 10)
   plot(res_model_parts) +
     ggtitle(sprintf("Mean variable importance over %s permutations", B))
@@ -53,47 +53,108 @@ single_custom_model_parts <- function(explainer = NULL,
 
 #to do:
 #werkt nu alleen als er 3 explainers zijn. nog fixen met 2.
+
+#niet zeker of B al werkt.
+
 multi_custom_model_parts <- function(explainer1 = NULL, 
                                      explainer2 = NULL, 
                                      explainer3 = NULL, 
                                      lossfunction = NULL,
                                      B = 10){
-  if(is.null(lossfunction)){
-    res_model_parts1 <- model_parts(explainer = explainer1, 
-                                   loss_function = loss_root_mean_square,
-                                   B = B)
+  if(!is.null(explainer1) && !is.null(explainer2)){
+    if(is.null(lossfunction)){
+      res_model_parts1 <- model_parts(explainer = explainer1)
+      
+      res_model_parts2 <- model_parts(explainer = explainer2)
+    }
     
-    res_model_parts2 <- model_parts(explainer = explainer2, 
-                                   loss_function = loss_root_mean_square,
-                                   B = B)
+    else{
+      res_model_parts1 <- model_parts(explainer = explainer1, 
+                                      loss_function = lossfunction,
+                                      B = B)
+      
+      res_model_parts2 <- model_parts(explainer = explainer2, 
+                                      loss_function = lossfunction,
+                                      B = B)
+    }
+    double <- c(res_model_parts1, res_model_parts2)
+    return(double)
     
-    res_model_parts3 <- model_parts(explainer = explainer3, 
-                                   loss_function = loss_root_mean_square,
-                                   B = B)
   }
+  
+  else if(!is.null(explainer1) && !is.null(explainer3)){
+    if(is.null(lossfunction)){
+      res_model_parts1 <- model_parts(explainer = explainer1)
+      
+      res_model_parts3 <- model_parts(explainer = explainer3)
+    }
+    
+    else{
+      res_model_parts1 <- model_parts(explainer = explainer1, 
+                                      loss_function = lossfunction,
+                                      B = B)
+      
+      res_model_parts3 <- model_parts(explainer = explainer3, 
+                                      loss_function = lossfunction,
+                                      B = B)
+    }
+    double <- c(res_model_parts1, res_model_parts3)
+    return(double)
+    
+  }
+  
+  else if (!is.null(explainer2) && !is.null(explainer3)){
+    if(is.null(lossfunction)){
+      res_model_parts2 <- model_parts(explainer = explainer2)
+      
+      res_model_parts3 <- model_parts(explainer = explainer3)
+    }
+    
+    else{
+      res_model_parts2 <- model_parts(explainer = explainer2, 
+                                      loss_function = lossfunction,
+                                      B = B)
+      
+      res_model_parts3 <- model_parts(explainer = explainer3, 
+                                      loss_function = lossfunction,
+                                      B = B)
+    }
+    double <- c(res_model_parts2, res_model_parts3)
+    return(double)
+  }
+    
   else{
-    res_model_parts1 <- model_parts(explainer = explainer1, 
-                                    loss_function = lossfunction,
-                                    B = B)
+    if(is.null(lossfunction)){
+      res_model_parts1 <- model_parts(explainer = explainer1)
+      
+      res_model_parts2 <- model_parts(explainer = explainer2)
+  
+      
+      res_model_parts3 <- model_parts(explainer = explainer3)
+    }
+    else{
+      res_model_parts1 <- model_parts(explainer = explainer1, 
+                                      loss_function = lossfunction,
+                                      B = B)
+      
+      res_model_parts2 <- model_parts(explainer = explainer2, 
+                                      loss_function = lossfunction,
+                                      B = B)
+      
+      res_model_parts3 <- model_parts(explainer = explainer3, 
+                                      loss_function = lossfunction,
+                                      B = B)
+    }
     
-    res_model_parts2 <- model_parts(explainer = explainer2, 
-                                    loss_function = lossfunction,
-                                    B = B)
+    #plot(res_model_parts1, res_model_parts2, res_model_parts3) +
+      #ggtitle(sprintf("Mean variable importance over %s permutations", B), "") 
     
-    res_model_parts3 <- model_parts(explainer = explainer3, 
-                                    loss_function = lossfunction,
-                                    B = B)
+    
+    
+    triple <- c(res_model_parts1, res_model_parts2, res_model_parts3)
+    return(triple)
   }
-  
-  plot(res_model_parts1, res_model_parts2, res_model_parts3) +
-    ggtitle(sprintf("Mean variable importance over %s permutations", B), "") 
-  
-  
-  
-  triple <- c(res_model_parts1, res_model_parts2, res_model_parts3)
-  return(triple)
 }
-
 
 ################################################################################
 
@@ -109,6 +170,7 @@ multi_custom_model_parts <- function(explainer1 = NULL,
 
 compare_pdp <- function(explainer1 = NULL, 
                         explainer2 = NULL, 
+                        explainer3 = NULL,
                         wanted_variable = NULL){
   
   if(is.null(explainer1) || is.null(explainer2)){
