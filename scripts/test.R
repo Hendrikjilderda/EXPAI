@@ -2,7 +2,7 @@
 
 explainer1 <- tm_explainer(test_test, dataset = data_test[-14], target_var = as.factor(data_test$condition), label = 'randomForest' )
 explainer2 <- tm_explainer(test_train , dataset = data_train[-14], target_var = as.factor(data_train$condition), label = 'randomForest2' )
-explainer3 <- tm_explainer(fitted_model1 , dataset = dataset[-14], target_var = as.factor(dataset$condition), label = 'randomForest3' )
+explainer3 <- tm_explainer(fitted_model1 , dataset = data_test[-14], target_var = as.factor(data_test$condition), label = 'randomForest3' )
 
 exp_warning <- tm_explainer(test_test)
 
@@ -33,7 +33,7 @@ ez_run <-function(){
 
 ez_run()
 
-
+plot(overall_comparison(explainer1, explainer3, type = 'classification'))
 
 
 # geeft rare waarden. NaN en 0

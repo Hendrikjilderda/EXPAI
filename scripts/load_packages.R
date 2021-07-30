@@ -9,3 +9,5 @@ library(parallel)
 
 library(DALEX)
 library(DALEXtra)
+library(modelStudio)
+library(fairmodels)

@@ -66,4 +66,20 @@ final_res %>%
 
 test_test <- final_wf %>% fit(data=data_test)
 test_train <- final_wf %>% fit(data=data_train)
-fitted_model1 <- final_wf %>% fit(data=data_test) 
+fitted_model1 <- final_wf %>% fit(data=data_test)
+
+
+################################################################################
+#testing modelStudio
+explainer1 <- tm_explainer(test_test, 
+                           dataset = data_test[-14],
+                           target_var = as.factor(data_test$condition), 
+                           label = 'randomForest' )
+
+ms <- modelStudio(explainer1)
+ms
+
+
+
+
+
