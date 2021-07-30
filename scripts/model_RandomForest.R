@@ -66,4 +66,4 @@ final_res %>%
 
 test_test <- final_wf %>% fit(data=data_test)
 test_train <- final_wf %>% fit(data=data_train)
-fitted_model1 <- final_wf %>% fit(data=data_test) #is dit wel de juiste data voor fitting?
+fitted_model1 <- final_wf %>% fit(data=data_test) 

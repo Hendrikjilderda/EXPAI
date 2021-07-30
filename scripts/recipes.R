@@ -27,7 +27,10 @@ data_rec <-
                                        'Fixed Defect' , 
                                        'Reverseable Defect'))) 
 
-  #step_string2factor(all_nominal())
+
+  # step_integer(all_predictors())      pd plot moet int hebben alleen werkt dit niet?
+
+  #step_string2factor(all_nominal())     explainer werkt niet door deze <---
   
 data_prep <- prep(data_rec)
 
