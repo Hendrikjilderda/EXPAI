@@ -29,3 +29,5 @@ fairness_check(explainer1)
 source("scripts/explainability_functions.R")
 
 source("scripts/test.R")
+
+model_performance(explainer1)
